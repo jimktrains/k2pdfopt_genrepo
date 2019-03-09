@@ -12,13 +12,15 @@ fi
 
 for i in `ls -R www.willus.com/k2pdfopt/src/*.zip`; do
   echo "working on $i"
-  TAG=`basename $i .zip`
-  TAG=`echo $TAG | sed s/k2pdfopt_//g`
+  PREFIX=`basename $i .zip`
+  TAG=`echo $PREFIX | sed s/k2pdfopt_//g`
   unzip -d $REPO_PATH -o $i
-  mv $REPO_PATH/$TAG/* .
-  rm -r $REPO_PATH/$TAG/
+  mv $REPO_PATH/$PREFIX/* .
+  rm -r $REPO_PATH/$PREFIX/
   git add .
   git commit -m "${TAG}"
+  git checkout -b "${TAG}"
+  git checkout master
   git tag "${TAG}"
   cd $CWD
 done
